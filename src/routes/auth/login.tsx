@@ -18,9 +18,16 @@ function Login() {
 
   const login = useMutation({
     mutationFn: () => {
-      return axios.post(`${BASE_API_URL}/login`, null, {
-        withCredentials: true,
-      });
+      return axios.post(
+        `${BASE_API_URL}/login`,
+        { Email: email, Password: password },
+        {
+          withCredentials: true,
+        }
+      );
+    },
+    onSuccess: () => {
+      return navigate({ to: "/" });
     },
   });
 
