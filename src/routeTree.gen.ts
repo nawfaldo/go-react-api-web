@@ -11,15 +11,34 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
+import { Route as MenuImport } from './routes/menu'
+import { Route as MenuSearchImport } from './routes/menu/search'
+import { Route as MenuChatImport } from './routes/menu/chat'
+import { Route as MenuAccountImport } from './routes/menu/account'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as MenuChatUserIdImport } from './routes/menu/chat.$userId'
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
-  path: '/',
+const MenuRoute = MenuImport.update({
+  path: '/menu',
   getParentRoute: () => rootRoute,
+} as any)
+
+const MenuSearchRoute = MenuSearchImport.update({
+  path: '/search',
+  getParentRoute: () => MenuRoute,
+} as any)
+
+const MenuChatRoute = MenuChatImport.update({
+  path: '/chat',
+  getParentRoute: () => MenuRoute,
+} as any)
+
+const MenuAccountRoute = MenuAccountImport.update({
+  path: '/account',
+  getParentRoute: () => MenuRoute,
 } as any)
 
 const AuthRegisterRoute = AuthRegisterImport.update({
@@ -32,15 +51,20 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const MenuChatUserIdRoute = MenuChatUserIdImport.update({
+  path: '/$userId',
+  getParentRoute: () => MenuChatRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuImport
       parentRoute: typeof rootRoute
     }
     '/auth/login': {
@@ -57,13 +81,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterImport
       parentRoute: typeof rootRoute
     }
+    '/menu/account': {
+      id: '/menu/account'
+      path: '/account'
+      fullPath: '/menu/account'
+      preLoaderRoute: typeof MenuAccountImport
+      parentRoute: typeof MenuImport
+    }
+    '/menu/chat': {
+      id: '/menu/chat'
+      path: '/chat'
+      fullPath: '/menu/chat'
+      preLoaderRoute: typeof MenuChatImport
+      parentRoute: typeof MenuImport
+    }
+    '/menu/search': {
+      id: '/menu/search'
+      path: '/search'
+      fullPath: '/menu/search'
+      preLoaderRoute: typeof MenuSearchImport
+      parentRoute: typeof MenuImport
+    }
+    '/menu/chat/$userId': {
+      id: '/menu/chat/$userId'
+      path: '/$userId'
+      fullPath: '/menu/chat/$userId'
+      preLoaderRoute: typeof MenuChatUserIdImport
+      parentRoute: typeof MenuChatImport
+    }
   }
 }
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  IndexRoute,
+  MenuRoute: MenuRoute.addChildren({
+    MenuAccountRoute,
+    MenuChatRoute: MenuChatRoute.addChildren({ MenuChatUserIdRoute }),
+    MenuSearchRoute,
+  }),
   AuthLoginRoute,
   AuthRegisterRoute,
 })
@@ -76,19 +132,43 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
+        "/menu",
         "/auth/login",
         "/auth/register"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/menu": {
+      "filePath": "menu.tsx",
+      "children": [
+        "/menu/account",
+        "/menu/chat",
+        "/menu/search"
+      ]
     },
     "/auth/login": {
       "filePath": "auth/login.tsx"
     },
     "/auth/register": {
       "filePath": "auth/register.tsx"
+    },
+    "/menu/account": {
+      "filePath": "menu/account.tsx",
+      "parent": "/menu"
+    },
+    "/menu/chat": {
+      "filePath": "menu/chat.tsx",
+      "parent": "/menu",
+      "children": [
+        "/menu/chat/$userId"
+      ]
+    },
+    "/menu/search": {
+      "filePath": "menu/search.tsx",
+      "parent": "/menu"
+    },
+    "/menu/chat/$userId": {
+      "filePath": "menu/chat.$userId.tsx",
+      "parent": "/menu/chat"
     }
   }
 }

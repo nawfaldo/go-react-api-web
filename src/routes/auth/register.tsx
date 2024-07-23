@@ -30,9 +30,9 @@ function Register() {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="space-y-5 w-[350px]">
-        <p className="font-semibold text-3xl">Register</p>
+    <div className="flex h-screen items-center justify-center">
+      <div className="w-[350px] space-y-5">
+        <p className="text-3xl font-semibold">Register</p>
         <div className="space-y-3">
           <TextInput
             label="Name"
@@ -65,7 +65,7 @@ function Register() {
         <p className="text-sm font-light">
           Already have an account?{" "}
           <span
-            className="text-blue-500 underline cursor-pointer hover:text-blue-600"
+            className="cursor-pointer text-blue-500 underline hover:text-blue-600"
             onClick={() => navigate({ to: "/auth/login" })}
           >
             Login
