@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as HelloImport } from './routes/hello'
 import { Route as AppImport } from './routes/app'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -20,6 +21,11 @@ import { Route as AppAccountImport } from './routes/app/account'
 import { Route as AppChatChatIdImport } from './routes/app/chat.$chatId'
 
 // Create/Update Routes
+
+const HelloRoute = HelloImport.update({
+  path: '/hello',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AppRoute = AppImport.update({
   path: '/app',
@@ -65,6 +71,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppImport
+      parentRoute: typeof rootRoute
+    }
+    '/hello': {
+      id: '/hello'
+      path: '/hello'
+      fullPath: '/hello'
+      preLoaderRoute: typeof HelloImport
       parentRoute: typeof rootRoute
     }
     '/app/account': {
@@ -120,6 +133,7 @@ export const routeTree = rootRoute.addChildren({
     AppChatRoute: AppChatRoute.addChildren({ AppChatChatIdRoute }),
     AppSearchRoute,
   }),
+  HelloRoute,
   AuthLoginRoute,
   AuthRegisterRoute,
 })
@@ -133,6 +147,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/app",
+        "/hello",
         "/auth/login",
         "/auth/register"
       ]
@@ -144,6 +159,9 @@ export const routeTree = rootRoute.addChildren({
         "/app/chat",
         "/app/search"
       ]
+    },
+    "/hello": {
+      "filePath": "hello.tsx"
     },
     "/app/account": {
       "filePath": "app/account.tsx",
