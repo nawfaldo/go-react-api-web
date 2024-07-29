@@ -7,7 +7,7 @@ const useAuth = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["auth"],
     queryFn: async () => {
       try {
@@ -16,7 +16,7 @@ const useAuth = () => {
         });
 
         if (pathname === "/auth/login") {
-          navigate({ to: "/menu/chat" });
+          navigate({ to: "/app/chat" });
         }
 
         return data;
@@ -32,7 +32,7 @@ const useAuth = () => {
     },
   });
 
-  return data;
+  return { data, isLoading };
 };
 
 export default useAuth;

@@ -27,6 +27,9 @@ function Register() {
         withCredentials: true,
       });
     },
+    onSuccess: () => {
+      return navigate({ to: "/app/chat" });
+    },
   });
 
   return (

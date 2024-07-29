@@ -41,7 +41,7 @@ function Login() {
       }
     },
     onSuccess: () => {
-      return navigate({ to: "/menu/chat" });
+      return navigate({ to: "/app/chat" });
     },
   });
 

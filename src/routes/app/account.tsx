@@ -6,7 +6,7 @@ import SecondaryButton from "../../components/SecondaryButton";
 import { useContext } from "react";
 import AuthContext from "../../utils/AuthContext";
 
-export const Route = createFileRoute("/menu/account")({
+export const Route = createFileRoute("/app/account")({
   component: Account,
 });
 
