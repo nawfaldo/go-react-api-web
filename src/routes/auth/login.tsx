@@ -6,13 +6,14 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASE_API_URL } from "../../utils/constants";
 import ErrorInfo from "../../components/ErrorInfo";
+import useAuth from "../../utils/useAuth";
 
 export const Route = createFileRoute("/auth/login")({
   component: Login,
 });
 
 function Login() {
-  // useAuth();
+  useAuth();
 
   const navigate = useNavigate();
 

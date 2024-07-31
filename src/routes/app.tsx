@@ -10,17 +10,17 @@ export const Route = createFileRoute("/app")({
 });
 
 function Menu() {
-  // const { data, isLoading } = useAuth();
+  const { data, isLoading } = useAuth();
 
   const [isShow, setIsShow] = useState<boolean>(false);
   const [content, setContent] = useState<JSX.Element>(<div></div>);
 
-  // if (isLoading) {
-  //   return null;
-  // }
+  if (isLoading) {
+    return null;
+  }
 
   return (
-    <AuthContext.Provider value={null}>
+    <AuthContext.Provider value={data}>
       <ShowContext.Provider value={{ setIsShow, setContent }}>
         <Sidebar />
         <Outlet />
